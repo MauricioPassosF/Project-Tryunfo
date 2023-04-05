@@ -20,79 +20,79 @@ class Form extends Component {
     } = this.props;
     return (
       <form>
-        <label htmlFor="card-name">
+        <label htmlFor="cardName">
           Colocar nome da carta
           <input
             type="text"
             data-testid="name-input"
-            name="card-name"
-            id="card-name"
+            name="cardName"
+            id="cardName"
             value={ cardName }
             onChange={ onInputChange }
           />
         </label>
-        <label htmlFor="description">
+        <label htmlFor="cardDescription">
           Colocar descricao
           <input
             type="textArea"
             data-testid="description-input"
-            name="description"
-            id="description"
+            name="cardDescription"
+            id="cardDescription"
             value={ cardDescription }
             onChange={ onInputChange }
           />
         </label>
-        <label htmlFor="attr1">
+        <label htmlFor="cardAttr1">
           Colocar valor de attr1
           <input
             type="number"
             data-testid="attr1-input"
-            name="attr1"
-            id="attr1"
+            name="cardAttr1"
+            id="cardAttr1"
             value={ cardAttr1 }
             onChange={ onInputChange }
           />
         </label>
-        <label htmlFor="attr2">
+        <label htmlFor="cardAttr2">
           Colocar valor de attr2
           <input
             type="number"
             data-testid="attr2-input"
-            name="attr2"
-            id="attr2"
+            name="cardAttr2"
+            id="cardAttr2"
             value={ cardAttr2 }
             onChange={ onInputChange }
           />
         </label>
-        <label htmlFor="attr3">
+        <label htmlFor="cardAttr3">
           Colocar valor de attr3
           <input
             type="number"
             data-testid="attr3-input"
-            name="attr3"
-            id="attr3"
+            name="cardAttr3"
+            id="cardAttr3"
             value={ cardAttr3 }
             onChange={ onInputChange }
           />
         </label>
-        <label htmlFor="card-image">
+        <label htmlFor="cardImage">
           Colocar link da imagem
           <input
             type="text"
             data-testid="image-input"
-            name="card-image"
-            id="card-image"
+            name="cardImage"
+            id="cardImage"
             value={ cardImage }
             onChange={ onInputChange }
           />
         </label>
-        <label htmlFor="card-rarity">
+        <label htmlFor="cardRare">
           Selecione a raridade da carta
           <select
             type="select"
             data-testid="rare-input"
-            name="card-rarity"
-            id="card-rarity"
+            name="cardRare"
+            id="cardRare"
             value={ cardRare }
             onChange={ onInputChange }
           >
@@ -101,13 +101,13 @@ class Form extends Component {
             <option value="muito raro">Muito Raro</option>
           </select>
         </label>
-        <label htmlFor="supertrunfo">
+        <label htmlFor="cardTrunfo">
           Essa carta eh o super trunfo?
           <input
             type="checkbox"
             data-testid="trunfo-input"
-            name="supertrunfo"
-            id="supertrunfo"
+            name="cardTrunfo"
+            id="cardTrunfo"
             checked={ cardTrunfo }
             onChange={ onInputChange }
           />
