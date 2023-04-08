@@ -14,6 +14,7 @@ class App extends React.Component {
     cardRare: 'Normal',
     cardTrunfo: false,
     isSaveButtonDisabled: true,
+    salvedCard: [],
   };
 
   textValidation = () => {
@@ -49,6 +50,25 @@ class App extends React.Component {
     }, this.buttonSaveValidation);
   };
 
+  onSaveButtonClick = () => {
+    const { cardName, cardDescription, cardImage,
+      cardRare, cardAttr1, cardAttr2, cardAttr3, salvedCard } = this.state;
+    salvedCard.push({
+      cardName, cardDescription, cardImage, cardRare, cardAttr1, cardAttr2, cardAttr3,
+    });
+    this.setState({
+      cardName: '',
+      cardDescription: '',
+      cardAttr1: '0',
+      cardAttr2: '0',
+      cardAttr3: '0',
+      cardImage: '',
+      cardRare: 'Normal',
+      cardTrunfo: false,
+      isSaveButtonDisabled: true,
+    });
+  };
+
   render() {
     const { cardName,
       cardDescription, cardAttr1, cardAttr2, cardAttr3,
@@ -59,6 +79,7 @@ class App extends React.Component {
         <main>
           <Form
             onInputChange={ this.onInputChange }
+            onSaveButtonClick={ this.onSaveButtonClick }
             cardName={ cardName }
             cardDescription={ cardDescription }
             cardAttr1={ cardAttr1 }
