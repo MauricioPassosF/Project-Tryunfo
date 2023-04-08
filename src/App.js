@@ -7,12 +7,38 @@ class App extends React.Component {
   state = {
     cardName: '',
     cardDescription: '',
-    cardAttr1: '',
-    cardAttr2: '',
-    cardAttr3: '',
+    cardAttr1: '0',
+    cardAttr2: '0',
+    cardAttr3: '0',
     cardImage: '',
-    cardRare: '',
+    cardRare: 'Normal',
     cardTrunfo: false,
+    isSaveButtonDisabled: true,
+  };
+
+  textValidation = () => {
+    const { cardName, cardDescription, cardImage, cardRare } = this.state;
+    const array = [cardName, cardDescription, cardImage, cardRare];
+    return array.some(({ length }) => length <= 0);
+  };
+
+  numberValidation = () => {
+    const { cardAttr1, cardAttr2, cardAttr3 } = this.state;
+    const arrayAttr = [cardAttr1, cardAttr2, cardAttr3]
+      .map((number) => Number(number));
+    const sum = arrayAttr.reduce(((add, number) => add + number), 0);
+    const sumLimit = 210;
+    const valueLimit = 90;
+    const sumLessThan210 = sum > sumLimit;
+    const valueLessThan90 = arrayAttr.some((attr) => attr > valueLimit);
+    const onlyPositive = arrayAttr.some((attr) => attr < 0);
+    return (sumLessThan210 || valueLessThan90 || onlyPositive);
+  };
+
+  buttonSaveValidation = () => {
+    this.setState({
+      isSaveButtonDisabled: (this.textValidation() || this.numberValidation()),
+    });
   };
 
   onInputChange = ({ target }) => {
@@ -20,13 +46,13 @@ class App extends React.Component {
     const value = type === 'checkbox' ? target.checked : target.value;
     this.setState({
       [name]: value,
-    });
+    }, this.buttonSaveValidation);
   };
 
   render() {
     const { cardName,
       cardDescription, cardAttr1, cardAttr2, cardAttr3,
-      cardImage, cardRare, cardTrunfo } = this.state;
+      cardImage, cardRare, cardTrunfo, isSaveButtonDisabled } = this.state;
     return (
       <>
         <h1>Tryunfo</h1>
@@ -41,6 +67,7 @@ class App extends React.Component {
             cardImage={ cardImage }
             cardRare={ cardRare }
             cardTrunfo={ cardTrunfo }
+            isSaveButtonDisabled={ isSaveButtonDisabled }
           />
           <Card
             cardName={ cardName }
