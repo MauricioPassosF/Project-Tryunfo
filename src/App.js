@@ -13,8 +13,9 @@ class App extends React.Component {
     cardImage: '',
     cardRare: 'Normal',
     cardTrunfo: false,
+    hasTrunfo: false,
     isSaveButtonDisabled: true,
-    salvedCard: [],
+    salvedCards: [],
   };
 
   textValidation = () => {
@@ -50,11 +51,25 @@ class App extends React.Component {
     }, this.buttonSaveValidation);
   };
 
+  trunfoValidaton = () => {
+    const { salvedCards } = this.state;
+    const trunfo = salvedCards
+      .some(({ cardTrunfo }) => cardTrunfo === true);
+    this.setState({ hasTrunfo: trunfo });
+  };
+
   onSaveButtonClick = () => {
     const { cardName, cardDescription, cardImage,
-      cardRare, cardAttr1, cardAttr2, cardAttr3, salvedCard } = this.state;
-    salvedCard.push({
-      cardName, cardDescription, cardImage, cardRare, cardAttr1, cardAttr2, cardAttr3,
+      cardRare, cardAttr1, cardAttr2, cardAttr3, cardTrunfo, salvedCards } = this.state;
+    salvedCards.push({
+      cardName,
+      cardDescription,
+      cardImage,
+      cardRare,
+      cardTrunfo,
+      cardAttr1,
+      cardAttr2,
+      cardAttr3,
     });
     this.setState({
       cardName: '',
@@ -66,11 +81,11 @@ class App extends React.Component {
       cardRare: 'Normal',
       cardTrunfo: false,
       isSaveButtonDisabled: true,
-    });
+    }, this.trunfoValidaton);
   };
 
   render() {
-    const { cardName,
+    const { cardName, hasTrunfo,
       cardDescription, cardAttr1, cardAttr2, cardAttr3,
       cardImage, cardRare, cardTrunfo, isSaveButtonDisabled } = this.state;
     return (
@@ -89,6 +104,7 @@ class App extends React.Component {
             cardRare={ cardRare }
             cardTrunfo={ cardTrunfo }
             isSaveButtonDisabled={ isSaveButtonDisabled }
+            hasTrunfo={ hasTrunfo }
           />
           <Card
             cardName={ cardName }
