@@ -1,6 +1,7 @@
 import React from 'react';
 import Form from './components/Form';
 import Card from './components/Card';
+import Filter from './components/Filter';
 import './App.css';
 
 class App extends React.Component {
@@ -16,6 +17,7 @@ class App extends React.Component {
     hasTrunfo: false,
     isSaveButtonDisabled: true,
     savedCards: [],
+    filterByName: '',
   };
 
   textValidation = () => {
@@ -96,10 +98,27 @@ class App extends React.Component {
     });
   };
 
+  // filterCards = () => {
+  //   const { filterByName, filteredCards } = this.state;
+  //   this.setState({
+  //     filteredCards: savedCards
+  //       .filter((card) => (card.cardName.includes(filterByName))),
+  //   });
+  // };
+
+  // onFilterInputChange = ({ target }) => {
+  //   const { type, name } = target;
+  //   const value = type === 'checkbox' ? target.checked : target.value;
+  //   this.setState({
+  //     [name]: value,
+  //   });
+  // };
+
   render() {
     const { cardName, hasTrunfo,
       cardDescription, cardAttr1, cardAttr2, cardAttr3,
-      cardImage, cardRare, cardTrunfo, isSaveButtonDisabled, savedCards } = this.state;
+      cardImage, cardRare, cardTrunfo, isSaveButtonDisabled, savedCards,
+      filterByName } = this.state;
     return (
       <>
         <h1>Tryunfo</h1>
@@ -132,27 +151,33 @@ class App extends React.Component {
           </div>
           <section className="deck-cards">
             <h1>Deck</h1>
-            {savedCards.map((card, index) => (
-              <div key={ index }>
-                <Card
-                  cardName={ card.cardName }
-                  cardDescription={ card.cardDescription }
-                  cardAttr1={ card.cardAttr1 }
-                  cardAttr2={ card.cardAttr2 }
-                  cardAttr3={ card.cardAttr3 }
-                  cardImage={ card.cardImage }
-                  cardRare={ card.cardRare }
-                  cardTrunfo={ card.cardTrunfo }
-                />
-                <button
-                  data-testid="delete-button"
-                  className="deck-card"
-                  onClick={ () => this.deleteCard(index) }
-                >
-                  Excluir
-                </button>
-              </div>
-            ))}
+            <Filter
+              filterByName={ filterByName }
+              onInputChange={ this.onInputChange }
+            />
+            {savedCards
+              .filter((card) => card.cardName.includes(filterByName))
+              .map((card, index) => (
+                <div key={ index }>
+                  <Card
+                    cardName={ card.cardName }
+                    cardDescription={ card.cardDescription }
+                    cardAttr1={ card.cardAttr1 }
+                    cardAttr2={ card.cardAttr2 }
+                    cardAttr3={ card.cardAttr3 }
+                    cardImage={ card.cardImage }
+                    cardRare={ card.cardRare }
+                    cardTrunfo={ card.cardTrunfo }
+                  />
+                  <button
+                    data-testid="delete-button"
+                    className="deck-card"
+                    onClick={ () => this.deleteCard(index) }
+                  >
+                    Excluir
+                  </button>
+                </div>
+              ))}
           </section>
         </main>
       </>
