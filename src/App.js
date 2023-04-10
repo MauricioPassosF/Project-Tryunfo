@@ -12,12 +12,13 @@ class App extends React.Component {
     cardAttr2: '0',
     cardAttr3: '0',
     cardImage: '',
-    cardRare: 'Normal',
+    cardRare: 'normal',
     cardTrunfo: false,
     hasTrunfo: false,
     isSaveButtonDisabled: true,
     savedCards: [],
     filterByName: '',
+    filterByRare: 'todas',
   };
 
   textValidation = () => {
@@ -80,7 +81,7 @@ class App extends React.Component {
       cardAttr2: '0',
       cardAttr3: '0',
       cardImage: '',
-      cardRare: 'Normal',
+      cardRare: 'normal',
       cardTrunfo: false,
       isSaveButtonDisabled: true,
     }, this.trunfoValidaton);
@@ -98,6 +99,14 @@ class App extends React.Component {
     });
   };
 
+  // filterCards = (card) => {
+  //   const { filterByRare } = this.state;
+  //   return (filterByRare === 'todas') ? true : (card.cardRare === filterByRare);
+  //   // if (filterByRare === 'todas') {
+  //   return true;
+  // }
+  // return (card.cardRare === filterByRare);
+  // };
   // filterCards = () => {
   //   const { filterByName, filteredCards } = this.state;
   //   this.setState({
@@ -118,7 +127,7 @@ class App extends React.Component {
     const { cardName, hasTrunfo,
       cardDescription, cardAttr1, cardAttr2, cardAttr3,
       cardImage, cardRare, cardTrunfo, isSaveButtonDisabled, savedCards,
-      filterByName } = this.state;
+      filterByName, filterByRare } = this.state;
     return (
       <>
         <h1>Tryunfo</h1>
@@ -152,10 +161,13 @@ class App extends React.Component {
           <section className="deck-cards">
             <h1>Deck</h1>
             <Filter
-              filterByName={ filterByName }
               onInputChange={ this.onInputChange }
+              filterByName={ filterByName }
+              filterByRare={ filterByRare }
             />
             {savedCards
+              .filter((card) => ((filterByRare === 'todas')
+                ? true : (card.cardRare === filterByRare)))
               .filter((card) => card.cardName.includes(filterByName))
               .map((card, index) => (
                 <div key={ index }>
