@@ -84,6 +84,18 @@ class App extends React.Component {
     }, this.trunfoValidaton);
   };
 
+  deleteCard = (index) => {
+    const { savedCards } = this.state;
+    if (savedCards[index].cardTrunfo === true) {
+      this.setState({
+        hasTrunfo: false,
+      });
+    }
+    this.setState({
+      savedCards: savedCards.filter((card, indexCard) => (indexCard !== index)),
+    });
+  };
+
   render() {
     const { cardName, hasTrunfo,
       cardDescription, cardAttr1, cardAttr2, cardAttr3,
@@ -121,17 +133,25 @@ class App extends React.Component {
           <section className="deck-cards">
             <h1>Deck</h1>
             {savedCards.map((card, index) => (
-              <Card
-                key={ index }
-                cardName={ card.cardName }
-                cardDescription={ card.cardDescription }
-                cardAttr1={ card.cardAttr1 }
-                cardAttr2={ card.cardAttr2 }
-                cardAttr3={ card.cardAttr3 }
-                cardImage={ card.cardImage }
-                cardRare={ card.cardRare }
-                cardTrunfo={ card.cardTrunfo }
-              />
+              <div key={ index }>
+                <Card
+                  cardName={ card.cardName }
+                  cardDescription={ card.cardDescription }
+                  cardAttr1={ card.cardAttr1 }
+                  cardAttr2={ card.cardAttr2 }
+                  cardAttr3={ card.cardAttr3 }
+                  cardImage={ card.cardImage }
+                  cardRare={ card.cardRare }
+                  cardTrunfo={ card.cardTrunfo }
+                />
+                <button
+                  data-testid="delete-button"
+                  className="deck-card"
+                  onClick={ () => this.deleteCard(index) }
+                >
+                  Excluir
+                </button>
+              </div>
             ))}
           </section>
         </main>
