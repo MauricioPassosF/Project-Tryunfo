@@ -19,6 +19,9 @@ class App extends React.Component {
     savedCards: [],
     filterByName: '',
     filterByRare: 'todas',
+    filterByTrunfo: false,
+    nameFilterDisable: false,
+    rareFilterDisable: false,
   };
 
   textValidation = () => {
@@ -46,12 +49,27 @@ class App extends React.Component {
     });
   };
 
+  filtersValidations = () => {
+    const { filterByTrunfo } = this.state;
+    if (filterByTrunfo) {
+      this.setState({
+        nameFilterDisable: true,
+        rareFilterDisable: true,
+      });
+    }
+  };
+
+  InputChangeHelper = () => {
+    this.buttonSaveValidation();
+    this.filtersValidations();
+  };
+
   onInputChange = ({ target }) => {
     const { type, name } = target;
     const value = type === 'checkbox' ? target.checked : target.value;
     this.setState({
       [name]: value,
-    }, this.buttonSaveValidation);
+    }, this.InputChangeHelper);
   };
 
   trunfoValidaton = () => {
@@ -99,35 +117,12 @@ class App extends React.Component {
     });
   };
 
-  // filterCards = (card) => {
-  //   const { filterByRare } = this.state;
-  //   return (filterByRare === 'todas') ? true : (card.cardRare === filterByRare);
-  //   // if (filterByRare === 'todas') {
-  //   return true;
-  // }
-  // return (card.cardRare === filterByRare);
-  // };
-  // filterCards = () => {
-  //   const { filterByName, filteredCards } = this.state;
-  //   this.setState({
-  //     filteredCards: savedCards
-  //       .filter((card) => (card.cardName.includes(filterByName))),
-  //   });
-  // };
-
-  // onFilterInputChange = ({ target }) => {
-  //   const { type, name } = target;
-  //   const value = type === 'checkbox' ? target.checked : target.value;
-  //   this.setState({
-  //     [name]: value,
-  //   });
-  // };
-
   render() {
     const { cardName, hasTrunfo,
       cardDescription, cardAttr1, cardAttr2, cardAttr3,
       cardImage, cardRare, cardTrunfo, isSaveButtonDisabled, savedCards,
-      filterByName, filterByRare } = this.state;
+      filterByName, filterByRare, filterByTrunfo,
+      nameFilterDisable, rareFilterDisable } = this.state;
     return (
       <>
         <h1>Tryunfo</h1>
@@ -164,8 +159,13 @@ class App extends React.Component {
               onInputChange={ this.onInputChange }
               filterByName={ filterByName }
               filterByRare={ filterByRare }
+              filterByTrunfo={ filterByTrunfo }
+              nameFilterDisable={ nameFilterDisable }
+              rareFilterDisable={ rareFilterDisable }
             />
             {savedCards
+              .filter((card) => ((filterByTrunfo === false)
+                ? true : card.cardTrunfo === filterByTrunfo))
               .filter((card) => ((filterByRare === 'todas')
                 ? true : (card.cardRare === filterByRare)))
               .filter((card) => card.cardName.includes(filterByName))
